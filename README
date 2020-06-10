@@ -1,0 +1,79 @@
+Macarie Razvan Cristian, 322CB
+
+  Am incercat sa in mare parte sa folosesc functii "helper" care fac un singur 
+lucru si sunt apelate in mare parte de alte functii care fac tot un singur 
+lucru. Functiile sunt destul de lungi pentru ca am folosit nume sugestive pentru
+variabile si pentru functii (in loc de "f x y" -> "indexOf element string"). 
+Ca o observatie, nu am mai patit pana acum sa scriu zeci de linii de cod pentru 
+o parte a unei teme (Show) si partea aia sa functioneze perfect pana la finalul 
+temei. Singurele probleme pe care le-am avut au fost la ultimele task-uri cand 
+dadeam Select ["ocupatie"] si nu stiam de ce nu merge, (trebuia "occupation").
+Si in mai multe locuri discrepanta dintre Int si Integer. Functiile din prelude
+vreau sa primeasca si intorc Int iar eu folosisem in mare parte Integer. Am 
+facut cast-uri de la toInteger si fromIntegral de fiecare data cand am avut 
+nevoie.
+
+-read_table:
+  Am folosit in mare parte functia splitBy din curs. Functia getTableSchema, 
+separa dupa un separator de coloana, prima linie din input separata deja cu 
+splitBy. Functia getIntrariTable citeste restul stringului intors de splitBy, 
+separat dupa linie, il separa dupa coloana si ii mai face si un filter dupa 
+(element != "") pentru ca imi citea un element gol la finalul inputului si a
+aparut in tabel.
+
+-showTable:
+  Ca sa rezolv problema cu padding-ul, am facut o lista cu maximul de pe fiecare
+coloana, care are lungimea = (length TableSchema). Ca sa calculez maximul de pe
+fiecare coloana, am pornit de la o functie care calculeaza lungimea maxima a 
+unui string dintr-o lista. Functia este apelata de o functie care transforma o
+lista de liste, intr-o lista de Integer, la pozitia i este lungimea maxima din 
+lista i. Am apelat functia anterioara pe o lista de coloane pe care le-am 
+construit anterior. In final am verificat daca se putea si mai bine, verificand 
+cu lungimile din header si am intors lista. Lungimea borderului "------.." este
+egala cu (suma tuturor valorilor din lista maxima) + 1. Am facut o functie care
+printeaza un entry si o folosesc sa printez headerul si un print entries care 
+apeleaza print entry pentru fiecare intrare din tabel.
+
+-HQL (Haskell Querry Language)
+  Select: 
+  Cand primesc o lista de nume de colana ["user_id", "zone"] o transform intr-o
+lista de indexi [0, 3] pentru ca am deja o functie care intoarce coloanaN. Dupa
+ce imi gasesc coloanele care trebuie, le transpun astfel incat coloanele sa fie
+transformate inapoi in intrari si creez un tabel cu lista cautata ca TableSchema
+si coloanele transpuse ca intrari.
+
+  SelectLimit: 
+  take n din select...
+
+  Filter:
+  aCataColoana imi intoarce indexul coloanei pe care se aplica filtrul.
+  getFilter intoarce un lambda care verifica dintr-un entry, daca elementul de
+pe coloana intoarsa de aCataColoana verifica conditia filtrului. Pentru Lt 
+folosesc read ca sa transform un string intr-un int.
+  Pentru not, am folosit functia not (care face not logic) tot intr-un lambda si
+am intors functia negata.
+  In final, am o lista de intrari, o functie care primeste o intrare si intoarce
+Bool, nu am avut decat sa aplic filter pe intrari (cum sugera si numele).
+
+
+  Merge: 
+  Concatenez listele de intrari si folosesc oricare header. Singurul considerent
+este oridinea, query-ul din stanga fiind primul.
+
+--Using HQL
+  Am folosit hql ca sa fac cautari in tabele si sa ma folosesc de ele.
+  
+  same_zone: 
+  Am cautat initial codul zonei din care provine user-ul cautand dupa userID.
+Dupa aceea am extras din querry codul zonei, si am filtrat tabelul dupa zona. Nu
+imi mergea tesele initial pentru ca trebuia scos si userul dupa care facem 
+search asa ca l-am scos din tabel cu un filtru.
+
+  male_within_age:
+  Banuiesc ca trebuia sa folosesc un LessThan si un (Not Less Than) si apoi inca
+un (Not equal) cu capatul din dreapta, dar mi-am dat seama ca e mai usor sa fac
+din cele 2 numere un interval si sa folosesc un singur In search.
+
+  mixed: 
+  Query In dupa zona, In dupa ocupatie, Lt dupa age, toate dupa parametri 
+primiti de functie.
